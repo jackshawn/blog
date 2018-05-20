@@ -19,8 +19,9 @@
       return {
         bgImageURL: undefined,
         width: window.innerWidth,
-        height: this.isHome ? window.innerHeight : 400,
+        height: window.innerHeight,
         showCursor: true,
+//        isHome: true,
         nav: [],
         navAll: [
           {
@@ -104,8 +105,6 @@
 </script>
 
 <style scoped>
-
-
   #nav {
     width: 100%;
     display: flex;
@@ -154,6 +153,7 @@
     height: 100%;
     object-fit: cover;
     top: 0;
+    left: 0;
     z-index: -2;
     transition: 1s all;
   }

@@ -1,7 +1,7 @@
 <template>
   <div style="height: 100%;">
     <Header :navName="nav || 'Home'"></Header>
-    <Note v-show="nav" :notes="notes[nav]"></Note>
+    <Note v-if="nav" :notes="notes[nav]"></Note>
     <keep-alive>
       <component :is=cur :nav=nav></component>
     </keep-alive>
