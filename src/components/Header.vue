@@ -78,6 +78,9 @@
             i++;
             j = 0
           }
+        } else {
+          // 隐藏光标
+          _this.showCursor = false;
         }
       };
 
@@ -91,9 +94,6 @@
         setTimeout(function() {
           clearInterval(t)
         }, 2000);
-
-        // 隐藏光标
-        _this.showCursor = false;
       }
     },
     computed: {
@@ -132,7 +132,7 @@
   #cursor {
     font-weight: bold;
     color: #fff;
-    animation: shine 1s;
+    animation: blink .75s;
     animation-iteration-count: infinite;
   }
 
@@ -190,12 +190,16 @@
     }
   }
 
-  @keyframes shine {
-    from {
+  @keyframes blink {
+    0% {
       opacity: 0;
     }
 
-    to {
+    49% {
+      opacity: 0;
+    }
+
+    50% {
       opacity: 1;
     }
   }
