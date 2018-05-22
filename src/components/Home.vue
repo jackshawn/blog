@@ -3,7 +3,7 @@
     <Header :navName="nav || 'Home'"></Header>
     <Note v-if="nav" :notes="notes[nav]"></Note>
     <keep-alive>
-      <component :is=cur :nav=nav></component>
+      <component v-show="nav" :is=cur :nav=nav></component>
     </keep-alive>
   </div>
 </template>
@@ -28,6 +28,7 @@
     data() {
       return {
         notes: {
+          Home: "记录生活,无关技术",
           Blog: "一直有写写东西的习惯,择一些能贱人的放在这边",
           Life: "x,x",
           Movie: "x,x",
@@ -37,9 +38,9 @@
       }
     },
     computed: {
-        cur() {
-            return this.nav === 'Blog' ? 'Blog' : 'Photo'
-        }
+      cur() {
+        return this.nav === 'Blog' ? 'Blog' : 'Photo'
+      }
     }
   }
 </script>

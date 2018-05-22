@@ -26,4 +26,8 @@
   body::-webkit-scrollbar {
     display:none
   }
+  /* 隐藏百度LOGO */
+  .anchorBL {
+    display: none;
+  }
 </style>
