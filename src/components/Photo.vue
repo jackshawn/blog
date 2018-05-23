@@ -6,39 +6,30 @@
         <img :src=previewURL></img>
       </div>
     </div>
-    <p id="more">MORE</p>
+    <More @fetch="addPhoto" :nav=nav></More>
   </div>
 
 </template>
 
 <script>
+  import More from './More.vue'
   import axios from 'axios'
+
   export default {
     name: 'Photos',
     props: {
       nav: String
     },
+    components: {
+      More
+    },
     data() {
       return {
         previewURL: undefined,
-        imgList: [
-            'http://ocm0knkb1.bkt.clouddn.com/1-1.jpg',
-            'http://ocm0knkb1.bkt.clouddn.com/1-2.jpg',
-            'http://ocm0knkb1.bkt.clouddn.com/1-3.jpg',
-        ]
+        imgList: []
       }
     },
     mounted() {
-
-      axios.get('photo/lief?startDate=2018-05-04')
-        .then((res) => {
-
-      }).catch((error) => {
-        console.log(error)
-      });
-
-
-
       // 禁止触摸操作
       document.getElementById('preview').addEventListener('touchmove', function(e) {
         e.preventDefault();
@@ -50,6 +41,11 @@
       },
       hidePreview() {
         this.previewURL = undefined
+      },
+      addPhoto(data) {
+        data.forEach(i => {
+          this.imgList.push(i.img)
+        })
       }
     }
   }
@@ -95,12 +91,8 @@
     max-height: 95%;
   }
 
-  #more {
-    text-align: center;
-  }
-
   @media (min-width: 640px) {
-    .container > img:last-of-type {
+    .container > img:last-of-type(odd) {
       transform: translateX(-160px);
     }
   }

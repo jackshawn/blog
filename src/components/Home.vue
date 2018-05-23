@@ -1,44 +1,38 @@
 <template>
   <div style="height: 100%;">
-    <Header :navName="nav || 'Home'"></Header>
-    <Note v-if="nav" :notes="notes[nav]"></Note>
+    <!--<Header :navName="nav || 'Home'"></Header>-->
+    <Subtitle v-if="nav" :nav=nav></Subtitle>
     <keep-alive>
-      <component v-show="nav" :is=cur :nav=nav></component>
+      <component v-show="nav" :is=curComponent :nav=nav></component>
     </keep-alive>
+    <Footer v-if="!nav"></Footer>
   </div>
 </template>
 
 <script>
   import Header from './Header.vue'
-  import Note from './Note.vue'
+  import Subtitle from './Subtitle.vue'
   import Blog from './Blog.vue'
   import Photo from './Photo.vue'
+  import Footer from './Footer.vue'
 
   export default {
     name: 'Home',
     components: {
       Header,
-      Note,
+      Subtitle,
       Blog,
-      Photo
+      Photo,
+      Footer
     },
     props: {
       nav: String
     },
     data() {
-      return {
-        notes: {
-          Home: "记录生活,无关技术",
-          Blog: "一直有写写东西的习惯,择一些能贱人的放在这边",
-          Life: "x,x",
-          Movie: "x,x",
-          Hehe: "x,x",
-          Drawing: "x,x"
-        },
-      }
+      return {}
     },
     computed: {
-      cur() {
+      curComponent() {
         return this.nav === 'Blog' ? 'Blog' : 'Photo'
       }
     }

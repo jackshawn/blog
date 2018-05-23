@@ -17,15 +17,19 @@
     background: #f7f7f7;
     height: 100%;
   }
+
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     height: 100%;
   }
+
+  /* 隐藏webkit浏览器滚动条 */
   body::-webkit-scrollbar {
-    display:none
+    display: none
   }
+
   /* 隐藏百度LOGO */
   .anchorBL {
     display: none;

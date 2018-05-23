@@ -138,7 +138,7 @@
     list-style-type: none;
   }
 
-  #map-nav li a{
+  #map-nav li a {
     font-size: 14px;
     font-weight: bold;
     color: #fff;
