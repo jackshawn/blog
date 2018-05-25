@@ -1,6 +1,31 @@
 // 前后台交互接口
 
 const API = [
+
+  // 登录
+  {
+    url: '/login',
+    type: 'POST',
+    req: {
+      username: '',
+      password: ''
+    },
+    res: {
+      result: 'success',
+      msg: ''
+    }
+  },
+
+  // 退出
+  {
+    url: '/logout',
+    type: 'GET',
+    res: {
+      result: 'success',
+      msg: ''
+    }
+  },
+
   // 获取照片
   {
     url: '/photo/category',
@@ -10,6 +35,7 @@ const API = [
       result: 'success',
       data: [
         {
+          id: '',
           picture: '',
           video: '',
           title: '',
@@ -24,7 +50,13 @@ const API = [
   {
     url: '/photo/category',
     type: 'POST',
-    req: '',
+    req: {
+      title: '',
+      picture: '',
+      video: '',
+      link: '',
+      date: ''
+    },
     res: {
       result: 'success',
       msg: ''
@@ -33,7 +65,7 @@ const API = [
 
   // 删除照片
   {
-    url: '/photo/category/ID',
+    url: '/photo/ID',
     type: 'DELETE',
     res: {
       result: 'success',
@@ -53,7 +85,7 @@ const API = [
         {
           title: '',
           content: '',
-          time: ''
+          date: ''
         },
       ]
     }
@@ -66,7 +98,7 @@ const API = [
     req: {
       title: '',
       content: '',
-      time: ''
+      date: ''
     },
     res: {
       result: 'success',
@@ -76,9 +108,8 @@ const API = [
 
   // 删除博客
   {
-    url: '/blog',
-    type: 'GET',
-    req: 'startDate',
+    url: '/blog/ID',
+    type: 'DELETE',
     res: {
       result: 'success',
       msg: ''
