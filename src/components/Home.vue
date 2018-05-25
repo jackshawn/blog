@@ -1,10 +1,9 @@
 <template>
   <div style="height: 100%;">
-    <!--<Header :navName="nav || 'Home'"></Header>-->
+    <Header :navName="nav || 'Home'"></Header>
     <Subtitle v-if="nav" :nav=nav></Subtitle>
-    <keep-alive>
-      <component v-show="nav" :is=curComponent :nav=nav></component>
-    </keep-alive>
+    <Blog nav="Blog" v-show="nav === 'Blog'"></Blog>
+    <Photo v-for="item in photoCategory" :nav="item" v-show="nav === item"></Photo>
     <Footer v-if="!nav"></Footer>
   </div>
 </template>
@@ -29,11 +28,8 @@
       nav: String
     },
     data() {
-      return {}
-    },
-    computed: {
-      curComponent() {
-        return this.nav === 'Blog' ? 'Blog' : 'Photo'
+      return {
+        photoCategory: ['Life', 'Movie', 'Hehe', 'Drawing']
       }
     }
   }

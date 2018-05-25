@@ -33,7 +33,7 @@
     font-family: Helvetica, Arial, sans-serif, 'Avenir';
     font-size: 14px;
     line-height: 3em;
-    margin: 0 auto;
+    margin: 10px auto 0;
     padding: 20px 40px;
     position: relative;
     text-align: center;

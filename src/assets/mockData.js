@@ -28,7 +28,7 @@ let photo = {
   data: new Array(6).fill(() => {
     return {
       title: Random.cword(5, 7),
-      img: Random.image('300x300'),
+      img: Random.image('300x300', '#cccccc', Random.word(5, 7)),
       date: Random.date('yy-MM-dd'),
       link: 'plain'
     }
@@ -43,3 +43,6 @@ Mock.mock('/blog', 'delete', defaultRes)
 
 // photo
 Mock.mock('/photo/life', 'get', photo)
+Mock.mock('/photo/movie', 'get', photo)
+Mock.mock('/photo/hehe', 'get', photo)
+Mock.mock('/photo/drawing', 'get', photo)

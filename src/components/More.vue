@@ -25,19 +25,21 @@
     methods: {
       getMore() {
         let _this = this;
-        let url = (this.nav === 'Blog' ? '/blog' : '/photo/' + this.nav.toString().toLowerCase()) + (this.startDate ? '?startDate=' + this.startDate : '');
+        if(this.nav){
+          let url = (this.nav === 'Blog' ? '/blog' : '/photo/' + this.nav.toString().toLowerCase()) + (this.startDate ? '?startDate=' + this.startDate : '');
 
-        this.state = 'loading'
-        axios.get(url)
-          .then((res) => {
-            let d = res.data;
-            _this.state = d.length < 6 ? 'done' : 'loaded';
-            if(d.result === 'success') {
-              _this.$emit('fetch', d.data)
-            }
-          }).catch((error) => {
-          console.log(error)
-        });
+          this.state = 'loading'
+          axios.get(url)
+            .then((res) => {
+              let d = res.data;
+              _this.state = d.length < 6 ? 'done' : 'loaded';
+              if(d.result === 'success') {
+                _this.$emit('fetch', d.data)
+              }
+            }).catch((error) => {
+            console.log(error)
+          });
+        }
       }
     }
   }
