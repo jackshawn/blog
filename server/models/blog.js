@@ -8,10 +8,9 @@ let blog = db.define('blog', {
     },
     title: Sequelize.STRING,
     content: Sequelize.TEXT,
-    time: Sequelize.DATE
+    date: Sequelize.DATE
 }, {
     timestamps: false
 });
-
 
 module.exports = blog;

@@ -10,8 +10,8 @@ let photo = db.define('photo', {
     picture: Sequelize.STRING,
     video: Sequelize.STRING,
     link: Sequelize.STRING,
-    type: Sequelize.STRING,
-    time: Sequelize.DATE
+    category: Sequelize.STRING,
+    date: Sequelize.DATE
 }, {
     timestamps: false
 });
