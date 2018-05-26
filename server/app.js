@@ -5,10 +5,14 @@ const router = require('koa-router')();
 const serve = require('koa-static');
 const bodyParser = require('koa-bodyparser');
 const controller = require('./controller');
+const session = require('koa-session-minimal');
+const { sessionConfig } = require('./config');
 
 const app = new Koa();
 
 app.use(bodyParser());
+app.use(session(sessionConfig));
+
 app.use(controller());
 app.use(serve(__dirname + '/view'));
 
