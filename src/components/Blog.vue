@@ -2,7 +2,8 @@
   <div id="markdown-body">
     <div class="blog-wrap" v-for="item in blog">
       <div class="blog-title">{{item.title}}</div>
-      <div class="blog plain">{{item.content}}</div>
+      <div v-if="item.type === 'plain'" class="blog plain" v-html="item.content"></div>
+      <div v-else class="blog" v-html="item.html"></div>
       <div class="blog-time">{{item.date}}</div>
     </div>
     <More @fetch="addBlog" :nav=nav></More>
@@ -30,9 +31,10 @@
         data.forEach(i => {
           _this.blog.push({
             title: i.title,
-            content: i.content,
-            html: i.type === 'plain' ? i.text : marked(i.text),
-            date: i.date
+            content: i.content.replace(/\n/g, '<br>'),
+            html: i.type === 'plain' ? i.content : marked(i.content),
+            date: i.date.substr(0, 10),
+            type: i.type
           })
         })
       }

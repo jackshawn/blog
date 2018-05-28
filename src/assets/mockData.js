@@ -37,7 +37,7 @@ let photo = {
 
 
 // blog
-Mock.mock('/blog', 'get', blog)
+Mock.mock(/^\/blog/, 'get', blog)
 Mock.mock('/blog', 'post', defaultRes)
 Mock.mock('/blog', 'delete', defaultRes)
 

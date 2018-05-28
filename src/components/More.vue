@@ -27,14 +27,14 @@
         let _this = this;
         if(this.nav){
           let url = (this.nav === 'Blog' ? '/blog' : '/photo/' + this.nav.toString().toLowerCase()) + (this.startDate ? '?startDate=' + this.startDate : '');
-
           this.state = 'loading'
           axios.get(url)
             .then((res) => {
               let d = res.data;
-              _this.state = d.length < 6 ? 'done' : 'loaded';
+              _this.state = d.data.length < 6 ? 'done' : 'loaded';
               if(d.result === 'success') {
                 _this.$emit('fetch', d.data)
+                _this.startDate = d.data[d.data.length - 1].date;
               }
             }).catch((error) => {
             console.log(error)
