@@ -10,6 +10,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
   export default {
     name: 'Destination',
     data() {
@@ -43,10 +44,12 @@
             name: 'Drawing',
             path: '/Drawing'
           },
-        ]
+        ],
+        destinations: []
       }
     },
     mounted(){
+      let _this = this;
       let map = new BMap.Map("map-container");
 
       // 地图自定义样式
@@ -88,11 +91,6 @@
         }
       ];
 
-      let destinations = [
-        [118.8813533102, 32.0240048192],
-        [128.8813533102, 12.0240048192],
-      ];
-
       let point = new BMap.Point(113.9676972505, 22.7415661316); // 中心位置
 
       map.setMapStyle({styleJson: myStyleJson});
@@ -109,9 +107,23 @@
           })
         });
       };
-      destinations.forEach(i => {
-        map.addOverlay(getMarker(i));
-      })
+      axios.get('/destination')
+        .then((res) => {
+          let d = res.data;
+          if(d.result === 'success') {
+            d.data.forEach(i => {
+              _this.destinations.push([i.longitude, i.latitude])
+            })
+            _this.destinations.forEach(i => {
+              map.addOverlay(getMarker(i));
+            })
+          } else {
+            alert(res.data.msg)
+          }
+        }).catch((error) => {
+        console.log(error)
+      });
+
     }
   }
 </script>
@@ -129,7 +141,7 @@
 
   #map-nav {
     position: absolute;
-    left: 15px;
+    left: 10px;
     bottom: 20px;
     z-index: 1;
   }

@@ -19,21 +19,20 @@
         <input type="date" placeholder="时间" v-model="blog.date">
       </div>
       <div id="photo" v-show="'LifeMovieHeheDrawing'.indexOf(category.selected) !== -1">
-        <form method="POST" :action="'photo/' + category.selected.toLowerCase()" enctype="multipart/form-data">
-          <input type="text" name="category" v-model="category.selected" id="upload-category">
-          <input type="text" name="title" placeholder="标题" v-model="photo.title">
-          <input type="text" name="title" placeholder="链接" v-model="photo.link">
-          <input type="date" name="date" v-model="photo.date">
+        <form method="POST" :action="'photo/' + category.selected.toLowerCase()" enctype="multipart/form-data" target="frame">
+          <input type="text" name="title" placeholder="标题">
+          <input type="text" name="link" placeholder="链接">
+          <input type="date" name="date">
           <input type="file" name="filefield">
-          <input type="submit" id="upload-btn">
+          <input type="submit" @click="upload">
         </form>
       </div>
       <div id="destination" v-show="category.selected === 'Destination'">
-        <input type="text" placeholder="位置">
-        <input type="text" placeholder="经度">
-        <input type="text" placeholder="纬度">
-        <input type="text" placeholder="链接">
-        <input type="date" placeholder="时间">
+        <input type="text" placeholder="位置" v-model="destination.location">
+        <input type="text" placeholder="经度" v-model="destination.longitude">
+        <input type="text" placeholder="纬度" v-model="destination.latitude">
+        <input type="text" placeholder="链接" v-model="destination.link">
+        <input type="date" placeholder="时间" v-model="destination.date">
       </div>
     </div>
     <p style="text-align: right">
@@ -43,6 +42,7 @@
           p-id="1439"></path></svg>
       </span>
     </p>
+    <iframe src="" frameborder="0" style="display: none" name="frame"></iframe>
   </div>
 </template>
 
@@ -63,9 +63,9 @@
           type: 'plain'
         },
         destination: {
+          location: '',
           longitude: '',
           latitude: '',
-          location: '',
           link: '',
           date: ''
         },
@@ -126,7 +126,7 @@
           }
         }
         if(this.category.selected === 'Destination') {
-          if(this.blog.title && this.blog.content && this.blog.date){
+          if(this.destination.location && this.destination.longitude && this.destination.latitude && this.destination.date){
             axios.post('/destination', _this.destination)
               .then((res) => {
                 if(res.data.result === 'success') {
@@ -143,10 +143,10 @@
           }
         }
         if('LifeMovieHeheDrawing'.indexOf(this.category.selected) !== -1) {
-          let btn = document.getElementById('upload-btn');
-          var evObj = document.createEvent('Events');
-          evObj.initEvent( 'click');
-          btn.dispatchEvent(evObj);
+//          let btn = document.getElementById('upload-btn');
+//          var evObj = document.createEvent('Events');
+//          evObj.initEvent( 'click');
+//          btn.dispatchEvent(evObj);
         }
       }
     }
