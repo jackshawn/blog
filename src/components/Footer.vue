@@ -38,7 +38,7 @@
 <style scoped>
   #footer {
     width: 150px;
-    margin-left: -50px;
+    margin-left: -75px;
 
     text-align: center;
 

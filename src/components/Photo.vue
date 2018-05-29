@@ -1,7 +1,12 @@
 <template>
   <div>
     <div class="container">
-      <img v-for="img in imgList" @click="showPreview(img)" :src=img></img>
+      <template v-for="item in list">
+        <img v-if="item.picture" @click="showPreview(item.picture)" :src=item.picture></img>
+        <span v-else class="video">
+          <video :src="item.video" controls type="video/mp4"></video>
+        </span>
+      </template>
       <div v-show="previewURL" @click="hidePreview" id="preview">
         <img :src=previewURL></img>
       </div>
@@ -26,7 +31,7 @@
     data() {
       return {
         previewURL: undefined,
-        imgList: []
+        list: []
       }
     },
     mounted() {
@@ -43,9 +48,7 @@
         this.previewURL = undefined
       },
       addPhoto(data) {
-        data.forEach(i => {
-          this.imgList.push(i.img)
-        })
+        this.list = this.list.concat(data)
       }
     }
   }
@@ -62,11 +65,20 @@
     flex-wrap: wrap;
   }
 
-  .container > img {
+  .container > img,
+  .container > .video {
     display: inline-block;
     width: 300px;
     height: 300px;
     margin: 10px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+
+  .container > .video > video {
+    width: 300px;
+    height: 300px;
+    margin: 0;
     object-fit: cover;
   }
 

@@ -1,10 +1,12 @@
 let photo = require('../models/photo');
 const Op = require('Sequelize').Op;
+let uploadFile = require('../upload');
+const path = require('path');
 
 // 获取照片
 let getPhoto = async (ctx, next) => {
   let category = ctx.params.category;
-  let startDate = ctx.query.startDate;
+  let startDate = ctx.query.startDate || new Date();
   let res = await photo.findAll({
     where: {
       category: category,
@@ -12,28 +14,55 @@ let getPhoto = async (ctx, next) => {
         [Op.lt]: startDate
       }
     },
-    limit: 6
+    limit: 6,
+    order: [['date', 'DESC']]
   });
   console.log(`get ${category} photos date from ${startDate}`)
-  ctx.response.body = JSON.stringify(res);
+  ctx.response.body = JSON.stringify({
+    result: 'success',
+    data: res
+  });
 };
 
 // 上传照片
 let postPhoto = async (ctx, next) => {
+
   let category = ctx.params.category;
-  let req = Object.assign(ctx.request.body, {
-    category: category
+
+  let serverFilePath = path.join(__dirname, '../view/')
+
+  let result = await uploadFile(ctx, {
+    fileType: 'album',
+    path: serverFilePath
   })
+
+  let req = result.type.toLowerCase() === 'mp4' ? {
+    category: category,
+    picture: '',
+    video: '../album/' + result.name,
+    title: result.formData.title,
+    link: result.formData.link,
+    date: result.formData.date
+  } : {
+    category: category,
+    picture: '../album/' + result.name,
+    video: '',
+    title: result.formData.title,
+    link: result.formData.link,
+    date: result.formData.date
+  }
+
   let res = await photo.create(req);
-  let result = res ? {
+
+  console.log(`post a ${category} photo: ${JSON.stringify(req)}`)
+
+  ctx.response.body = result.success ? {
     result: 'success',
     msg: ''
   } : {
     result: 'fail',
     msg: ''
   }
-  console.log(`post a ${category} photo: ${JSON.stringify(req)}`)
-  ctx.response.body = JSON.stringify(result);
 };
 
 // 删除照片

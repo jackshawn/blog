@@ -34,4 +34,10 @@
   .anchorBL {
     display: none;
   }
+
+  /* 隐藏input蓝边*/
+  input,
+  textarea {
+    outline:none;
+  }
 </style>

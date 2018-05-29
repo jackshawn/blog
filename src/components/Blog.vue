@@ -53,6 +53,7 @@
 
   .blog-wrap .plain {
     text-align: center;
+    line-height: 2em;
   }
 
   .blog-wrap .blog-title {
@@ -60,11 +61,13 @@
     font-weight: bold;
     text-align: center;
     color: inherit;
+    line-height: 2.5em;
   }
 
   .blog-wrap .blog-time {
     font-size: 14px;
     text-align: center;
     color: #333;
+    line-height: 2.5em;
   }
 </style>

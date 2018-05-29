@@ -26,6 +26,16 @@ const API = [
     }
   },
 
+  // 状态检测
+  {
+    url: '/check',
+    type: 'GET',
+    res: {
+      result: 'success',
+      msg: ''
+    }
+  },
+
   // 获取照片
   {
     url: '/photo/category',
@@ -39,7 +49,7 @@ const API = [
           picture: '',
           video: '',
           title: '',
-          time: '',
+          date: '',
           link: ''
         },
       ]
