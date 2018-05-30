@@ -1,5 +1,5 @@
 let blog = require('../models/blog');
-const Op = require('Sequelize').Op;
+const Op = require('sequelize').Op;
 
 // 获取博客
 let getBlog = async (ctx, next) => {

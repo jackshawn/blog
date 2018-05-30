@@ -1,5 +1,5 @@
 let user = require('../models/user');
-const Op = require('Sequelize').Op;
+const Op = require('sequelize').Op;
 
 // 登录
 let login = async (ctx, next) => {

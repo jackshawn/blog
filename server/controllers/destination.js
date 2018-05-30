@@ -1,5 +1,5 @@
 let destination = require('../models/destination');
-const Op = require('Sequelize').Op;
+const Op = require('sequelize').Op;
 
 // 获取位置
 let getDestination = async (ctx, next) => {

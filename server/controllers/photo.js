@@ -1,5 +1,5 @@
 let photo = require('../models/photo');
-const Op = require('Sequelize').Op;
+const Op = require('sequelize').Op;
 let uploadFile = require('../upload');
 const path = require('path');
 
