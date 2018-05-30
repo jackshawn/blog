@@ -56,13 +56,7 @@
 
 <style scoped>
   .container {
-    max-width: 640px;
     margin: 0 auto;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
   }
 
   .container > img,
@@ -103,9 +97,15 @@
     max-height: 95%;
   }
 
-  @media (min-width: 640px) {
-    .container > img:last-of-type(odd) {
-      transform: translateX(-160px);
-    }
+  @media (max-width: 640px) {
+    .container {width: 320px}
+  }
+
+  @media (min-width: 640px) and (max-width: 1280px) {
+    .container {width: 640px}
+  }
+
+  @media (min-width: 1280px) {
+    .container {width: 1280px}
   }
 </style>

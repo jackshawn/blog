@@ -56,13 +56,7 @@ let postPhoto = async (ctx, next) => {
 
   console.log(`post a ${category} photo: ${JSON.stringify(req)}`)
 
-  ctx.response.body = result.success ? {
-    result: 'success',
-    msg: ''
-  } : {
-    result: 'fail',
-    msg: ''
-  }
+  ctx.response.body = result.success ? '照片上传成功' : '照片上传失败'
 };
 
 // 删除照片

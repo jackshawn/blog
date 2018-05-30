@@ -2,8 +2,8 @@
   <div style="height: 100%;">
     <Header :navName="nav || 'Home'"></Header>
     <Subtitle v-if="nav" :nav=nav></Subtitle>
-    <Blog nav="Blog" v-show="nav === 'Blog'"></Blog>
-    <Photo v-for="item in photoCategory" :nav="item" v-show="nav === item"></Photo>
+    <Blog nav="Blog" v-show="nav === 'Blog'" class="content"></Blog>
+    <Photo v-for="item in photoCategory" :nav="item" v-show="nav === item" class="content"></Photo>
     <Footer v-if="!nav"></Footer>
   </div>
 </template>
@@ -35,3 +35,19 @@
   }
 </script>
 
+<style scoped>
+  .content {
+    animation: slide-in .5s;
+  }
+
+  @keyframes slide-in {
+    from {
+      transform: translateY(30px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+</style>
