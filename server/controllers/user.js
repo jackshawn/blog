@@ -41,9 +41,10 @@ let logout = async (ctx, next) => {
 
 // 检测登录状态
 let check = async (ctx, next) => {
-  console.log(`check`)
+  console.log('check state')
   ctx.response.body = JSON.stringify({
     result: ctx.session.user ? 'success' : 'fail',
+    user: ctx.session.user ? ctx.session.user.username : '',
     msg: ''
   });
 };

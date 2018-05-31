@@ -2,7 +2,7 @@
   <div>
     <div class="container">
       <template v-for="item in list">
-        <img v-if="item.picture" @click="showPreview(item.picture)" :src=item.picture></img>
+        <img v-if="item.picture" @click="showPreview(item.picture)" :src=item.picture :alt="item.title"></img>
         <span v-else class="video">
           <video :src="item.video" controls type="video/mp4"></video>
         </span>

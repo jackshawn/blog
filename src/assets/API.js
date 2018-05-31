@@ -32,6 +32,7 @@ const API = [
     type: 'GET',
     res: {
       result: 'success',
+      user: '',
       msg: ''
     }
   },

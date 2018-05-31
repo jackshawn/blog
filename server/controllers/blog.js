@@ -1,19 +1,29 @@
 let blog = require('../models/blog');
 const Op = require('sequelize').Op;
+const checkUserState = require('../utils/check');
 
 // 获取博客
 let getBlog = async (ctx, next) => {
-  let startDate = ctx.query.startDate || new Date();
-  let res = await blog.findAll({
-    where: {
-      date: {
-        [Op.lt]: startDate
-      }
-    },
-    limit: 6,
-    order: [['date', 'DESC']]
-  });
-  console.log(`get blogs date from ${startDate}`)
+  let res;
+  if(ctx.query.getAll){
+    res = await blog.findAll({
+      order: [['date', 'DESC']]
+    });
+    console.log('get all blogs')
+  } else {
+    let startDate = ctx.query.startDate || new Date();
+    res = await blog.findAll({
+      where: {
+        date: {
+          [Op.lt]: startDate
+        }
+      },
+      limit: 6,
+      order: [['date', 'DESC']]
+    });
+    console.log(`get blogs date from ${startDate}`)
+  }
+
   ctx.response.body = JSON.stringify({
     result: 'success',
     data: res
@@ -22,37 +32,32 @@ let getBlog = async (ctx, next) => {
 
 // 上传博客
 let postBlog = async (ctx, next) => {
-  let req = ctx.request.body;
-  console.log(req);
-  let res = await blog.create(req);
-  let result = res ? {
-    result: 'success',
-    msg: ''
-  } : {
-    result: 'fail',
-    msg: ''
+  if(checkUserState(ctx)){
+    let req = ctx.request.body;
+    let res = await blog.create(req);
+    console.log(`post a blog: ${JSON.stringify(req)}`)
+    ctx.response.body = JSON.stringify({
+      result: 'success',
+      msg: ''
+    });
   }
-  console.log(`post a blog: ${JSON.stringify(req)}`)
-  ctx.response.body = JSON.stringify(result);
 };
 
 // 删除博客
 let deleteBlog = async (ctx, next) => {
-  let id = ctx.params.id;
-  let res = await blog.destroy({
-    where: {
-      id: id
-    }
-  });
-  let result = res ? {
-    result: 'success',
-    msg: ''
-  } : {
-    result: 'fail',
-    msg: ''
+  if(checkUserState(ctx)) {
+    let id = ctx.params.id;
+    let res = await blog.destroy({
+      where: {
+        id: id
+      }
+    });
+    console.log(`blog: ${id} deleted`)
+    ctx.response.body = JSON.stringify({
+      result: 'success',
+      msg: ''
+    });
   }
-  console.log(`blog: ${id} deleted`)
-  ctx.response.body = JSON.stringify(result);
 };
 
 

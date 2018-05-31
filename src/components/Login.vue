@@ -73,6 +73,9 @@
     width: 100%;
     margin: 10px auto;
     padding: 0;
+    border: 0;
+    box-shadow: 1px 1px 1px #ccc;
+    line-height: 2em;
   }
 
   .icon {

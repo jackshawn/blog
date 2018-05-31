@@ -45,3 +45,6 @@ Mock.mock('/blog', 'delete', defaultRes)
 
 // photo
 Mock.mock(/^\/photo/, 'get', photo)
+
+// check
+Mock.mock('/check', 'get', Object.assign(defaultRes, {user: 'Admin'}))
