@@ -16,7 +16,7 @@
     data() {
       return {
         state: 'loaded',
-        startDate: ''
+        ID: ''
       }
     },
     mounted() {
@@ -26,7 +26,7 @@
       getMore() {
         let _this = this;
         if(this.nav){
-          let url = (this.nav === 'Blog' ? '/blog' : '/photo/' + this.nav.toString().toLowerCase()) + (this.startDate ? '?startDate=' + this.startDate : '');
+          let url = (this.nav === 'Blog' ? '/blog' : '/photo/' + this.nav.toString().toLowerCase()) + (this.ID ? '?ID=' + this.ID : '');
           this.state = 'loading'
           axios.get(url)
             .then((res) => {
@@ -34,7 +34,7 @@
               _this.state = d.data.length < 6 ? 'done' : 'loaded';
               if(d.result === 'success') {
                 _this.$emit('fetch', d.data)
-                _this.startDate = d.data[d.data.length - 1].date;
+                _this.ID = d.data[d.data.length - 1].id;
               }
             }).catch((error) => {
             console.log(error)

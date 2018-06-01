@@ -44,6 +44,8 @@ function uploadFile( ctx, options) {
   let res = ctx.res
   let busboy = new Busboy({headers: req.headers})
 
+  console.log(req)
+
   // 获取类型
   let fileType = options.fileType || 'common'
   let filePath = path.join( options.path,  fileType)
@@ -58,7 +60,7 @@ function uploadFile( ctx, options) {
 
     // 解析请求文件事件
     busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-      let fileName = Math.random().toString(16).substr(2) + '.' + getSuffixName(filename)
+      let fileName = ctx.params.category.toUpperCase() + '-' + new Date().toString().replace(/ /g, '-') + '.' + getSuffixName(filename)
       let _uploadFilePath = path.join( filePath, fileName )
       let saveTo = path.join(_uploadFilePath)
 

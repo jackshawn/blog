@@ -14,13 +14,10 @@
           <input type="radio" id="plain" value="plain" v-model="blog.type"><label for="plain">plain</label>
           <input type="radio" id="markdown" value="markdown" v-model="blog.type"><label for="markdown">markdown</label>
         </div>
-        <input type="date" placeholder="时间" v-model="blog.date">
       </div>
-      <div id="photo" v-show="'LifeMovieHeheDrawing'.indexOf(category.selected) !== -1">
+      <div id="photo" v-show="'LifeMovieHeheDrawingMarkdownOnly'.indexOf(category.selected) !== -1">
         <form method="POST" :action="'photo/' + category.selected.toLowerCase()" enctype="multipart/form-data" target="frame">
           <input type="text" name="title" placeholder="标题">
-          <input type="text" name="link" placeholder="链接">
-          <input type="date" name="date">
           <input type="file" name="filefield">
           <input type="submit">
         </form>
@@ -30,8 +27,6 @@
         <input type="text" placeholder="位置" v-model="destination.location">
         <input type="text" placeholder="经度" v-model="destination.longitude">
         <input type="text" placeholder="纬度" v-model="destination.latitude">
-        <input type="text" placeholder="链接" v-model="destination.link">
-        <input type="date" placeholder="时间" v-model="destination.date">
       </div>
     </div>
     <p :style="{textAlign: 'right', display: showBtn}" >
@@ -51,39 +46,31 @@
     data() {
       return {
         category: {
-          list: ['Blog', 'Life', 'Movie', 'Destination', 'Hehe', 'Drawing'],
+          list: ['Blog', 'Life', 'Movie', 'Destination', 'Hehe', 'Drawing', 'MarkdownOnly'],
           selected: 'Blog'
         },
         blog: {
           title: '',
           content: '',
-          date: '',
           type: 'plain'
         },
         destination: {
           location: '',
           longitude: '',
           latitude: '',
-          link: '',
-          date: ''
         },
         photo: {
           title: '',
           picture: '',
-          video: '',
-          link: '',
-          date: ''
+          video: ''
         }
       }
-    },
-    mounted() {
-//      this.check();
     },
     methods: {
       send() {
         let _this = this;
         if(this.category.selected === 'Blog') {
-          if(this.blog.title && this.blog.content && this.blog.date){
+          if(this.blog.title && this.blog.content){
             axios.post('/blog', _this.blog)
               .then((res) => {
                 if(res.data.result === 'success') {
@@ -100,7 +87,7 @@
           }
         }
         if(this.category.selected === 'Destination') {
-          if(this.destination.location && this.destination.longitude && this.destination.latitude && this.destination.date){
+          if(this.destination.location && this.destination.longitude && this.destination.latitude){
             axios.post('/destination', _this.destination)
               .then((res) => {
                 if(res.data.result === 'success') {
@@ -121,7 +108,7 @@
     },
     computed: {
       showBtn() {
-        return 'LifeMovieHeheDrawing'.indexOf(this.category.selected) === -1 ? 'block' : 'none'
+        return 'LifeMovieHeheDrawingMarkdownOnly'.indexOf(this.category.selected) === -1 ? 'block' : 'none'
       }
     }
   }
@@ -152,6 +139,8 @@
     padding: 5px 0;
     margin: 5px auto;
     box-shadow: 1px 1px 1px #ccc;
+    font-size: 14px;
+    line-height: 1.5em;
   }
 
   .send-btn {
@@ -172,6 +161,7 @@
   #container #blog .blog-type input{
     width: auto;
     margin-right: 10px;
+    box-shadow: none;
   }
 
   @media (max-width: 600px) {

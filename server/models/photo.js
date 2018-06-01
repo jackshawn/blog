@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const db = require('../db');
+const db = require('../utils/db');
 
 let photo = db.define('photo', {
     id: {
@@ -9,7 +9,6 @@ let photo = db.define('photo', {
     title: Sequelize.STRING,
     picture: Sequelize.STRING,
     video: Sequelize.STRING,
-    link: Sequelize.STRING,
     category: Sequelize.STRING,
     date: Sequelize.DATE
 }, {

@@ -14,7 +14,10 @@
     <tbody class="list-body">
       <tr v-for="(item, index) in list">
         <td style="width: 36px;">{{index + 1}}</td>
-        <td>{{item.title}}</td>
+        <td>
+          <a :href="item.src" target="_blank" v-if="item.category == 'photo'">{{item.title}}</a>
+          <span v-else>{{item.title}}</span>
+        </td>
         <td>{{item.date}}</td>
         <td>{{item.category}}</td>
         <td style="width: 36px;">{{item.id}}</td>
@@ -90,7 +93,8 @@
                   category: 'photo',
                   title: i.title,
                   id: i.id,
-                  date: i.date
+                  date: i.date,
+                  src: i.picture || i.video
                 })
               })
             } else {
@@ -139,7 +143,10 @@
     overflow: hidden;
     white-space: nowrap;
     max-width: 0;
+    color: #333;
   }
+
+  #list td a {color: #333}
 
   #list tr:hover{background: #fff;}
 
@@ -164,12 +171,12 @@
   }
 
    /*Mobile*/
-  @media (max-width: 600px) {
+  @media (max-width: 560px) {
     #list .list-body {display: none}
   }
 
   /* Pc*/
-  @media (min-width: 600px) {
+  @media (min-width: 560px) {
     #list .list-tip {display: none}
   }
 

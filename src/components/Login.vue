@@ -75,7 +75,9 @@
     padding: 0;
     border: 0;
     box-shadow: 1px 1px 1px #ccc;
-    line-height: 2em;
+    line-height: 2.5em;
+    font-size: 14px;
+    text-align: center;
   }
 
   .icon {

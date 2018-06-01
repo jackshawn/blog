@@ -3,14 +3,19 @@ const Op = require('sequelize').Op;
 
 // 登录
 let login = async (ctx, next) => {
-  const { username, password } = ctx.request.body
+  const { username, password } = ctx.request.body;
+  let result;
   let res = await user.findAll({
     where: {
       username: username
     }
   });
-  let result;
-  if(res.length === 1 && res[0].password === password) {
+  if(res.length === 0){
+    result = {
+      result: 'fail',
+      msg: `user ${username} not exist`
+    };
+  } else if(res[0].password === password) {
     result = {
       result: 'success',
       msg: ''
@@ -25,14 +30,14 @@ let login = async (ctx, next) => {
       msg: 'password error'
     }
   }
-  console.log(`user ${username} login`)
+  console.log(`user ${username} login ${result.result}`)
   ctx.response.body = JSON.stringify(result);
 };
 
 // 退出
 let logout = async (ctx, next) => {
-  console.log(`logout`)
-  ctx.session = null
+  console.log('logout')
+  ctx.session = null;
   ctx.response.body = JSON.stringify({
     result: 'success',
     msg: ''

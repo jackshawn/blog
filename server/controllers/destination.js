@@ -17,7 +17,7 @@ let getDestination = async (ctx, next) => {
 let postDestination = async (ctx, next) => {
   if(checkUserState(ctx)){
     let req = ctx.request.body;
-    let res = await destination.create(req);
+    let res = await destination.create(Object.assign(req, {date: new Date()}));
     console.log(`post a destination: ${JSON.stringify(req)}`)
     ctx.response.body = JSON.stringify({
       result: 'success',

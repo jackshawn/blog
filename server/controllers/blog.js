@@ -4,24 +4,26 @@ const checkUserState = require('../utils/check');
 
 // 获取博客
 let getBlog = async (ctx, next) => {
-  let res;
-  if(ctx.query.getAll){
+  let res = undefined;
+  let getAll = ctx.query.getAll;
+  let id = ctx.query.ID;
+
+  if(getAll){
     res = await blog.findAll({
-      order: [['date', 'DESC']]
+      order: [['id', 'DESC']]
     });
     console.log('get all blogs')
   } else {
-    let startDate = ctx.query.startDate || new Date();
     res = await blog.findAll({
-      where: {
-        date: {
-          [Op.lt]: startDate
+      where: id ? {
+        id: {
+          [Op.lt]: id
         }
-      },
+      } : {},
       limit: 6,
-      order: [['date', 'DESC']]
+      order: [['id', 'DESC']]
     });
-    console.log(`get blogs date from ${startDate}`)
+    console.log('get blogs')
   }
 
   ctx.response.body = JSON.stringify({

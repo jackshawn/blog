@@ -6,27 +6,27 @@ const path = require('path');
 
 // 获取照片
 let getPhoto = async (ctx, next) => {
+  let res = undefined;
   let category = ctx.params.category;
-  let res;
+  let id = ctx.query.ID;
 
   if(category === 'all'){
     res = await photo.findAll({
-      order: [['date', 'DESC']]
+      order: [['id', 'DESC']]
     });
     console.log('get all photos')
   } else {
-    let startDate = ctx.query.startDate || new Date();
     res = await photo.findAll({
-      where: {
+      where: id ? {
         category: category,
-        date: {
-          [Op.lt]: startDate
+        id: {
+          [Op.lt]: id
         }
-      },
+      } : {category: category},
       limit: 6,
-      order: [['date', 'DESC']]
+      order: [['id', 'DESC']]
     });
-    console.log(`get ${category} photos date from ${startDate}`)
+    console.log(`get ${category} photos`)
   }
 
   ctx.response.body = JSON.stringify({
@@ -51,16 +51,12 @@ let postPhoto = async (ctx, next) => {
       category: category,
       picture: '',
       video: '../album/' + result.name,
-      title: result.formData.title,
-      link: result.formData.link,
-      date: result.formData.date
+      title: result.formData.title
     } : {
       category: category,
       picture: '../album/' + result.name,
       video: '',
-      title: result.formData.title,
-      link: result.formData.link,
-      date: result.formData.date
+      title: result.formData.title
     }
 
     let res = await photo.create(req);

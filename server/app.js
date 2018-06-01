@@ -1,12 +1,11 @@
 const Koa = require('koa');
 
-// 注意require('koa-router')返回的是函数:
 const router = require('koa-router')();
 const serve = require('koa-static');
 const bodyParser = require('koa-bodyparser');
-const controller = require('./controller');
+const controller = require('./utils/controller');
 const session = require('koa-session-minimal');
-const { sessionConfig } = require('./config');
+const { sessionConfig } = require('./utils/config');
 
 const app = new Koa();
 
