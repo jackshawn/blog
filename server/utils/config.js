@@ -17,6 +17,11 @@ const config = {
       httpOnly: true,
       overwrite: false
     }
+  },
+  // TinyPNG 图片压缩配置; https://tinypng.com/developers/reference/nodejs
+  imgCompress: {
+    enable: false,
+    key: ''
   }
 }
 
