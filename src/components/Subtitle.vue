@@ -18,10 +18,10 @@
         subtitles: {
           Home: "记录生活,无关技术",
           Blog: "一直有写东西的习惯,择一些能见人的放在这边",
-          Life: "x,x",
+          Life: "记录生活",
           Movie: "一部电影 一次震憾,一本胶片 一串记忆,一个人物 一段历程",
           Hehe: "A DOG/CAT IS MUST HAVE,HE NAMES HEHE",
-          Drawing: "牌,坊"
+          Drawing: "A,FLAG"
         }
       }
     },

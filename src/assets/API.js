@@ -41,7 +41,7 @@ const API = [
   {
     url: '/photo/category',
     type: 'GET',
-    req: 'startDate',
+    req: 'ID',
     res: {
       result: 'success',
       data: [
@@ -89,7 +89,7 @@ const API = [
   {
     url: '/blog',
     type: 'GET',
-    req: 'startDate',
+    req: 'ID',
     res: {
       result: 'success',
       data: [
