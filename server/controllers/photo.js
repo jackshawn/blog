@@ -1,8 +1,9 @@
 let photo = require('../models/photo');
 const Op = require('sequelize').Op;
+const path = require('path');
 let uploadFile = require('../utils/upload');
 const checkUserState = require('../utils/check');
-const path = require('path');
+const compress = require('../utils/compress');
 
 // 获取照片
 let getPhoto = async (ctx, next) => {
@@ -38,34 +39,14 @@ let getPhoto = async (ctx, next) => {
 // 上传照片
 let postPhoto = async (ctx, next) => {
   if(checkUserState(ctx)) {
-    let category = ctx.params.category;
+    let result = await uploadFile(ctx)
 
-    let serverFilePath = path.join(__dirname, '../view/')
+    let res = await photo.create(result);
 
-    let result = await uploadFile(ctx, {
-      fileType: 'album',
-      path: serverFilePath
-    })
+    console.log(`post a ${result.category} photo: ${JSON.stringify(result)}`)
 
-    let req = result.type.toLowerCase() === 'mp4' ? {
-      category: category,
-      picture: '',
-      video: '../album/' + result.name,
-      title: result.formData.title
-    } : {
-      category: category,
-      picture: '../album/' + result.name,
-      video: '',
-      title: result.formData.title
-    }
-
-    let res = await photo.create(req);
-
-    console.log(`post a ${category} photo: ${JSON.stringify(req)}`)
-
-    ctx.response.body = result.success ? '照片上传成功' : '照片上传失败'
+    ctx.response.body = res ? '照片上传成功' : '照片上传失败'
   }
-
 };
 
 // 删除照片

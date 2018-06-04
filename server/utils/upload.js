@@ -1,36 +1,16 @@
-/*
-* copy from https://chenshenhai.github.io/koa2-note/note/upload/simple.html
-* */
+const path = require('path');
+const os = require('os');
+const fs = require('fs');
+const Busboy = require('busboy');
+const compress = require('./compress');
 
-const path = require('path')
-const os = require('os')
-const fs = require('fs')
-const Busboy = require('busboy')
+// 获取文件后缀
+const getFileType = fileName => fileName.split('.')[fileName.split('.').length - 1].toLowerCase();
 
-/**
- * 同步创建文件目录
- * @param  {string} dirname 目录绝对地址
- * @return {boolean}        创建目录结果
- */
-function mkdirsSync( dirname ) {
-  if (fs.existsSync( dirname )) {
-    return true
-  } else {
-    if (mkdirsSync( path.dirname(dirname)) ) {
-      fs.mkdirSync( dirname )
-      return true
-    }
-  }
-}
-
-/**
- * 获取上传文件的后缀名
- * @param  {string} fileName 获取上传文件的后缀名
- * @return {string}          文件后缀名
- */
-function getSuffixName( fileName ) {
-  let nameList = fileName.split('.')
-  return nameList[nameList.length - 1]
+// 获取时间
+const getDate = () => {
+  let d = new Date();
+  return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate() + '-' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
 }
 
 /**
@@ -39,61 +19,55 @@ function getSuffixName( fileName ) {
  * @param  {object} options 文件上传参数 fileType文件类型， path文件存放路径
  * @return {promise}
  */
-function uploadFile( ctx, options) {
-  let req = ctx.req
-  let res = ctx.res
-  let busboy = new Busboy({headers: req.headers})
 
-  console.log(req)
-
-  // 获取类型
-  let fileType = options.fileType || 'common'
-  let filePath = path.join( options.path,  fileType)
-  let mkdirResult = mkdirsSync( filePath )
+const uploadFile = (ctx, options) => {
+  let {req, res} = ctx;
+  let busboy = new Busboy({headers: req.headers});
 
   return new Promise((resolve, reject) => {
-    console.log('文件上传中...')
+    console.log('uploading...');
     let result = {
-      success: false,
-      formData: {},
+      category: ctx.params.category,
+      picture: undefined,
+      video: undefined,
+      title: undefined
     }
 
     // 解析请求文件事件
-    busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-      let fileName = ctx.params.category.toUpperCase() + '-' + new Date().toString().replace(/ /g, '-') + '.' + getSuffixName(filename)
-      let _uploadFilePath = path.join( filePath, fileName )
-      let saveTo = path.join(_uploadFilePath)
+    busboy.on('file', (fieldname, file, filename) => {
+      let fileType = getFileType(filename);
+      let fileName = ctx.params.category.toUpperCase() + '-' + getDate() + '.' + fileType;
+      let filePath = path.join(__dirname, '../view/album/' + fileName);
+      console.log(filePath)
+      file.pipe(fs.createWriteStream(filePath));
 
-      // 文件保存到制定路径
-      file.pipe(fs.createWriteStream(saveTo))
+      if(fileType === 'mp4') {
+        result.video = '../album/' + fileName;
+      } else {
+        result.picture = compress(fileName)
+      }
 
-      // 文件写入事件结束
-      file.on('end', function() {
-        result.success = true
-        result.name = fileName
-        result.type = getSuffixName(filename)
-        result.message = '文件上传成功'
-
-        console.log('文件上传成功！')
+      file.on('end', () => {
         resolve(result)
-      })
+      });
     })
 
     // 解析表单中其他字段信息
-    busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
-      console.log('表单字段数据 [' + fieldname + ']: value: ' + val);
-      result.formData[fieldname] = val;
+    busboy.on('field', (fieldname, val) => {
+      let obj = {}
+      obj[fieldname] = val;
+      result.title = obj.title;
     });
 
     // 解析结束事件
-    busboy.on('finish', function( ) {
-      console.log('文件上结束')
+    busboy.on('finish', () => {
+      console.log('upload done')
       resolve(result)
     })
 
     // 解析错误事件
-    busboy.on('error', function(err) {
-      console.log('文件上出错')
+    busboy.on('error', (err) => {
+      console.log('upload error')
       reject(result)
     })
 
@@ -102,5 +76,4 @@ function uploadFile( ctx, options) {
 
 }
 
-
-module.exports =  uploadFile
+module.exports = uploadFile
