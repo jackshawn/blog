@@ -31,21 +31,18 @@ const uploadFile = (ctx, options) => {
       picture: undefined,
       video: undefined,
       title: undefined
-    }
+    };
+    let fileType = undefined;
+    let fileName = undefined;
+    let filePath = undefined;
 
     // 解析请求文件事件
     busboy.on('file', (fieldname, file, filename) => {
-      let fileType = getFileType(filename);
-      let fileName = ctx.params.category.toUpperCase() + '-' + getDate() + '.' + fileType;
-      let filePath = path.join(__dirname, '../view/album/' + fileName);
-      console.log(filePath)
-      file.pipe(fs.createWriteStream(filePath));
+      fileType = getFileType(filename);
+      fileName = ctx.params.category.toUpperCase() + '-' + getDate() + '.' + fileType;
+      filePath = path.join(__dirname, '../view/album/' + fileName);
 
-      if(fileType === 'mp4') {
-        result.video = '../album/' + fileName;
-      } else {
-        result.picture = compress(fileName)
-      }
+      file.pipe(fs.createWriteStream(filePath));
 
       file.on('end', () => {
         resolve(result)
@@ -61,7 +58,12 @@ const uploadFile = (ctx, options) => {
 
     // 解析结束事件
     busboy.on('finish', () => {
-      console.log('upload done')
+      console.log('upload done');
+      if(fileType === 'mp4') {
+        result.video = '../album/' + fileName;
+      } else {
+        result.picture = compress(fileName)
+      }
       resolve(result)
     })
 
