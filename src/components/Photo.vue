@@ -2,14 +2,12 @@
   <div>
     <div class="container">
       <template v-for="item in list">
-        <img v-if="item.picture" @click="showPreview(item.picture)" :src=item.picture :alt="item.title"></img>
+        <img v-if="item.picture" @click="showPreview(item.picture)" :id="item.picture" :src=item.picture :alt="item.title"></img>
         <span v-else class="video">
           <video :src="item.video" controls type="video/mp4"></video>
         </span>
       </template>
-      <div v-show="previewURL" @click="hidePreview" id="preview">
-        <img :src=previewURL></img>
-      </div>
+      <div v-show="previewActive" @click="hidePreview" id="preview"></div>
     </div>
     <More @fetch="addPhoto" :nav=nav></More>
   </div>
@@ -30,22 +28,29 @@
     },
     data() {
       return {
-        previewURL: undefined,
-        list: []
+        previewActive: false,
+        list: [],
+        preview: undefined,
+        img: undefined
       }
     },
     mounted() {
+      this.preview = document.getElementById('preview');
       // 禁止触摸操作
-      document.getElementById('preview').addEventListener('touchmove', function(e) {
+      this.preview.addEventListener('touchmove', function(e) {
         e.preventDefault();
       }, false);
     },
     methods: {
-      showPreview(url) {
-        this.previewURL = url
+      showPreview(id) {
+        this.previewActive = true;
+        this.img = document.getElementById(id).cloneNode(true);
+        this.preview.appendChild(this.img);
       },
       hidePreview() {
-        this.previewURL = undefined
+        this.previewActive = false;
+        this.preview.removeChild(this.img);
+        this.img = undefined;
       },
       addPhoto(data) {
         this.list = this.list.concat(data)
