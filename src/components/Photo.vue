@@ -7,7 +7,7 @@
           <video :src="item.video" controls type="video/mp4"></video>
         </span>
       </template>
-      <div v-show="previewActive" @click="hidePreview" id="preview"></div>
+      <div v-show="previewActive" @click="hidePreview" class="preview" :id="nav + '-preview'"></div>
     </div>
     <More @fetch="addPhoto" :nav=nav></More>
   </div>
@@ -35,7 +35,7 @@
       }
     },
     mounted() {
-      this.preview = document.getElementById('preview');
+      this.preview = document.getElementById(this.nav + '-preview');
       // 禁止触摸操作
       this.preview.addEventListener('touchmove', function(e) {
         e.preventDefault();
@@ -81,7 +81,7 @@
     object-fit: cover;
   }
 
-  #preview {
+  .preview {
     margin: auto;
     position: fixed;
     top: 0;
@@ -97,7 +97,7 @@
     align-items: center;
   }
 
-  #preview > img {
+  .preview > img {
     max-width: 95%;
     max-height: 95%;
   }
