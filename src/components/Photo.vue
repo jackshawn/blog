@@ -2,12 +2,11 @@
   <div>
     <div class="container">
       <template v-for="item in list">
-        <img v-if="item.picture" @click="showPreview(item.picture)" :id="item.picture" :src=item.picture :alt="item.title"></img>
+        <img v-if="item.picture" @click="showPreview(item.picture)" :ref="item.picture" :src=item.picture :alt="item.title"></img>
         <span v-else class="video">
           <video :src="item.video" controls type="video/mp4"></video>
         </span>
       </template>
-      <div v-show="previewActive" @click="hidePreview" class="preview" :id="nav + '-preview'"></div>
     </div>
     <More @fetch="addPhoto" :nav=nav></More>
   </div>
@@ -28,29 +27,13 @@
     },
     data() {
       return {
-        previewActive: false,
         list: [],
-        preview: undefined,
-        img: undefined
       }
-    },
-    mounted() {
-      this.preview = document.getElementById(this.nav + '-preview');
-      // 禁止触摸操作
-      this.preview.addEventListener('touchmove', function(e) {
-        e.preventDefault();
-      }, false);
     },
     methods: {
       showPreview(id) {
-        this.previewActive = true;
-        this.img = document.getElementById(id).cloneNode(true);
-        this.preview.appendChild(this.img);
-      },
-      hidePreview() {
-        this.previewActive = false;
-        this.preview.removeChild(this.img);
-        this.img = undefined;
+        let imgDom = this.$refs[id][0]
+        imgDom.className = imgDom.className ? '' : 'preview'
       },
       addPhoto(data) {
         this.list = this.list.concat(data)
@@ -81,25 +64,19 @@
     object-fit: cover;
   }
 
-  .preview {
-    margin: auto;
+  .container > img.preview {
     position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 9;
-    background: rgba(0, 0, 0, .75);
-    overflow: hidden;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .preview > img {
+    top: 50%;
+    left: 50%;
     max-width: 95%;
     max-height: 95%;
+    margin: 0;
+    z-index: 99;
+    width: auto;
+    height: auto;
+    transform: translate(-50%,-50%);
+
+    border: 2000px solid rgba(0, 0, 0, .75);
   }
 
   @media (max-width: 640px) {
