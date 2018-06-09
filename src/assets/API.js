@@ -127,6 +127,7 @@ const API = [
     }
   },
 
+
   // 获取位置
   {
     url: '/destination',
@@ -135,6 +136,7 @@ const API = [
       result: 'success',
       data: [
         {
+          id: '',
           longitude: '',
           latitude: '',
           location: '',
@@ -142,6 +144,16 @@ const API = [
           date: ''
         },
       ]
+    }
+  },
+
+  // 删除位置
+  {
+    url: '/destination/ID',
+    type: 'DELETE',
+    res: {
+      result: 'success',
+      msg: ''
     }
   },
 ]
