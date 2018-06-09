@@ -4,7 +4,6 @@ const checkUserState = require('../utils/check');
 
 // 获取位置
 let getDestination = async (ctx, next) => {
-  let startDate = ctx.query.startDate || new Date();
   let res = await destination.findAll();
   console.log('get destination')
   ctx.response.body = JSON.stringify({
@@ -17,7 +16,7 @@ let getDestination = async (ctx, next) => {
 let postDestination = async (ctx, next) => {
   if(checkUserState(ctx)){
     let req = ctx.request.body;
-    let res = await destination.create(Object.assign(req, {date: new Date()}));
+    let res = await destination.create(req);
     console.log(`post a destination: ${JSON.stringify(req)}`)
     ctx.response.body = JSON.stringify({
       result: 'success',
