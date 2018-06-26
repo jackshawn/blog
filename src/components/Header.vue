@@ -59,7 +59,7 @@
       let _this = this;
       let i = 0;
       let j = 0;
-      this.bgImageURL = 'https://picsum.photos/g/' + this.width + '/' + this.height + '/?random';
+      this.bgImageURL = 'https://picsum.photos/' + this.width + '/' + this.height + '/?random';
 
       // 文字键入
       let typeIn = function() {
@@ -144,7 +144,7 @@
     bottom: 0;
     left: 0;
     z-index: -1;
-    background: rgba(0, 0, 0, .5);
+    background: rgba(0, 0, 0, .35);
   }
 
   #bg-img {
@@ -156,6 +156,7 @@
     left: 0;
     z-index: -2;
     transition: 1s all;
+    filter: grayscale(65%)
   }
 
   /* Mobile*/

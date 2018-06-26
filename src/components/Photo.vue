@@ -55,6 +55,7 @@
     margin: 10px;
     object-fit: cover;
     overflow: hidden;
+    filter: grayscale(50%)
   }
 
   .container > .video > video {
